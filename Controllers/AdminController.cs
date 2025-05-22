@@ -34,6 +34,32 @@ namespace AspNetIdentityAdmin.Controllers
             return View(users);
         }
 
+        // GET: Manage claims for all users
+        public async Task<IActionResult> ManageAllUserClaims()
+        {
+            var users = _userManager.Users.ToList();
+            var model = new List<ManageUserClaimsViewModel>();
+
+            foreach (var user in users)
+            {
+                var claims = await _userManager.GetClaimsAsync(user);
+                model.Add(new ManageUserClaimsViewModel
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    Claims = claims.Select(c => new ClaimSelection
+                    {
+                        Type = c.Type,
+                        Value = c.Value,
+                        Selected = true
+                    }).ToList()
+                });
+            }
+
+            return View(model);
+        }
+
+
         // GET: Edit a user
         public async Task<IActionResult> EditUser(string id)
         {

@@ -1,0 +1,32 @@
+﻿@model List<AspNetIdentityAdmin.Controllers.ManageUserClaimsViewModel>
+
+@{
+    ViewData["Title"] = "Manage Claims for All Users";
+}
+
+<h1>Manage Claims for All Users</h1>
+
+@foreach (var user in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>@user.UserName</strong>
+            <a class="btn btn-sm btn-primary float-end" asp-action="ManageUserClaims" asp-route-userId="@user.UserId">Edit Claims</a>
+        </div>
+        <div class="card-body">
+            @if (user.Claims.Any())
+            {
+                <ul>
+                    @foreach (var claim in user.Claims)
+                    {
+                        <li>@claim.Type: @claim.Value</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <em>No claims assigned.</em>
+            }
+        </div>
+    </div>
+}
