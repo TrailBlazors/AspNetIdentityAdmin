@@ -20,3 +20,21 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Add spacing between the last input and the button in forms */
+form .form-group:last-of-type,
+form .mb-3:last-of-type,
+form .input-group:last-of-type {
+    margin-bottom: 1.25rem; /* Adjust as needed */
+}
+
+.btn-bold-white,
+.btn-bold-white:visited,
+.btn-bold-white:active,
+.btn-bold-white:focus,
+.btn-bold-white:hover {
+    color: #fff !important;
+    font-weight: bold !important;
+    text-decoration: none;
+}
+
