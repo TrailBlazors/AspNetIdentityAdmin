@@ -12,6 +12,7 @@
         <div class="card-header">
             <strong>@user.UserName</strong>
             <a class="btn btn-sm btn-primary float-end" asp-action="ManageUserClaims" asp-route-userId="@user.UserId">Edit Claims</a>
+
         </div>
         <div class="card-body">
             @if (user.Claims.Any())
