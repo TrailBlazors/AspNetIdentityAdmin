@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AspNetIdentityAdmin.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AspNetIdentityAdminContextConnection") ?? throw new InvalidOperationException("Connection string 'AspNetIdentityAdminContextConnection' not found.");
 
@@ -18,6 +21,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+
 
 var app = builder.Build();
 
@@ -83,6 +89,20 @@ app.UseRouting();
 
 app.UseAuthentication(); 
 app.UseAuthorization();
+
+app.MapGet("/", async context =>
+{
+    if (context.User.Identity?.IsAuthenticated == true)
+    {
+        context.Response.Redirect("/Admin/Index");
+    }
+    else
+    {
+        context.Response.Redirect("/Identity/Account/Login");
+    }
+    await Task.CompletedTask; // Ensure all code paths return a Task
+});
+
 
 app.MapControllerRoute(
     name: "default",
